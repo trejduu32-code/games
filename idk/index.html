@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploitZ3r0BOT by Riste aka ExploitZ3r0</title>
+    <meta property="og:title" content="ExploitZ3r0BOT - Online" />
+    <meta property="og:description" content="Military-grade bot protection for your website" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://exploitz3r0bot.neocities.org" />
+    <meta property="og:image" content="https://teapottool.neocities.org/teapot-preview.png" />
+    <meta name="theme-color" content="#00ff00">
+    <meta name="description" content="ExploitZ3r0BOT - Military-grade bot protection. Deploy advanced security with a single line of code." />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&family=Orbitron:wght@500;600;700;800;900&display=swap"></noscript>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="glow-orb orb1" aria-hidden="true"></div>
+    <div class="glow-orb orb2" aria-hidden="true"></div>
+    <div class="glow-orb orb3" aria-hidden="true"></div>
+    <div class="cursor-trail" id="cursorTrail" aria-hidden="true"></div>
+    <div class="container">
+        <header>
+            <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Teapot Logo">
+                <defs>
+                    <linearGradient id="teapotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1" />
+                        <stop offset="40%" style="stop-color:#00cc00;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#00aa00;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#008800;stop-opacity:1" />
+                    </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <ellipse cx="50" cy="62" rx="30" ry="26" fill="url(#teapotGradient)" filter="url(#glow)"/>
+                <path d="M 25 52 Q 10 52, 8 62 Q 10 72, 25 72" fill="none" stroke="url(#teapotGradient)" stroke-width="5" filter="url(#glow)"/>
+                <path d="M 77 57 Q 92 57, 94 62 Q 92 67, 77 67" fill="url(#teapotGradient)" filter="url(#glow)"/>
+                <ellipse cx="50" cy="42" rx="22" ry="9" fill="url(#teapotGradient)" filter="url(#glow)"/>
+                <circle cx="50" cy="35" r="6" fill="url(#teapotGradient)" filter="url(#glow)"/>
+                <path d="M 43 28 Q 41 18, 43 12" fill="none" stroke="rgba(0,255,0,0.7)" stroke-width="2.5" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 50 26 Q 50 16, 50 10" fill="none" stroke="rgba(0,255,0,0.7)" stroke-width="2.5" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" begin="0.4s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 57 28 Q 59 18, 57 12" fill="none" stroke="rgba(0,255,0,0.7)" stroke-width="2.5" stroke-linecap="round">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" begin="0.8s" repeatCount="indefinite"/>
+                </path>
+                <ellipse cx="40" cy="57" rx="9" ry="7" fill="rgba(0,255,0,0.35)" opacity="0.7"/>
+            </svg>
+            <div class="logo-container">
+                <h1 class="logo">ExploitZ3r0BOT</h1>
+            </div>
+            <p class="tagline">military-grade bot detection & prevention</p>
+            <div class="status-badge">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span class="status-text">Online</span>
+            </div>
+        </header>
+        
+        <div class="installation-instructions">
+            <h2 class="section-title">reCAPTCHA Alternative</h2>
+            <p class="instructions-description">Protect your website from bots with our reCAPTCHA alternative. Simply add one of the following scripts to your HTML.</p>
+            
+            <div class="option-container">
+                <div class="option-header">
+                    <h3 class="option-title">Standard Version</h3>
+                </div>
+                <div class="instruction-line">
+                    <code id="line1">&lt;script src="https://v111.neocities.org/bot/exploitz3r0bot.js"&gt;&lt;/script&gt;</code>
+                    <button class="copy-btn" onclick="copyToClipboard('line1')">Copy</button>
+                </div>
+                <p class="option-description">Full featured version with detailed logging and debugging capabilities. Recommended for production environments.</p>
+            </div>
+            
+            <div class="option-container">
+                <div class="option-header">
+                    <h3 class="option-title">Minified Version</h3>
+                </div>
+                <div class="instruction-line">
+                    <code id="line2">&lt;script src="https://v111.neocities.org/bot/exploitz3r0bot.min.js"&gt;&lt;/script&gt;</code>
+                    <button class="copy-btn" onclick="copyToClipboard('line2')">Copy</button>
+                </div>
+                <p class="option-description">Compressed version for faster loading. Great for testing but not recommended for production due to limited debugging capabilities.</p>
+            </div>
+            
+            <div class="comparison-section">
+                <h3 class="comparison-title">Version Comparison</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <span class="comparison-label">File Size:</span>
+                        <span class="comparison-value">Standard: Larger | Minified: Smaller</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span class="comparison-label">Performance:</span>
+                        <span class="comparison-value">Similar</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span class="comparison-label">Debugging:</span>
+                        <span class="comparison-value">Standard: Detailed | Minified: Limited</span>
+                    </div>
+                    <div class="comparison-item">
+                        <span class="comparison-label">Use Case:</span>
+                        <span class="comparison-value">Standard: Production | Minified: Testing</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="creator-credit">
+                <p>ExploitZ3r0BOT by Riste aka ExploitZ3r0</p>
+            </div>
+        </div>
+    </div>
+    <div class="teapot-pet" id="teapotPet" role="img" aria-label="Interactive teapot">
+        <div class="teapot-body">
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="teapot-lid">
+                <div class="teapot-knob"></div>
+            </div>
+            <div class="teapot-spout"></div>
+            <div class="teapot-handle"></div>
+            <div class="teapot-eyes">
+                <div class="teapot-eye"></div>
+                <div class="teapot-eye"></div>
+            </div>
+            <div class="teapot-smile"></div>
+            <div class="water-stream" id="waterStream"></div>
+        </div>
+    </div>
+    <div class="teapot-message" id="teapotMessage" role="alert" aria-live="polite"></div>
+    <div class="toast" id="toast" role="alert" aria-live="polite">
+        <span id="toastMessage"></span>
+    </div>
+    <script src="script.js" defer></script>
+    
+    <!-- Script for copy functionality -->
+    <script>
+        function copyToClipboard(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const text = codeElement.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Check if showToast is available, otherwise show alert
+                if (typeof showToast === 'function') {
+                    showToast("Copied to clipboard!");
+                } else {
+                    // Fallback for cases when script.js hasn't loaded yet
+                    console.log("Copied to clipboard!");
+                }
+            }).catch(err => {
+                if (typeof showToast === 'function') {
+                    showToast("Failed to copy: " + err);
+                } else {
+                    alert("Failed to copy: " + err);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

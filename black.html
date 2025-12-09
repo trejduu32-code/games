@@ -1,0 +1,265 @@
+<!-- no right to change the code!--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Hole Animation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    canvas {
+      display: block;
+      cursor: grab;
+    }
+    
+    canvas:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="blackHoleCanvas"></canvas>
+  
+  <script>
+    const canvas = document.getElementById('blackHoleCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas to full window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Center of the black hole
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+    
+    // Mouse interaction variables
+    let isDragging = false;
+    let dragStartX, dragStartY;
+    let dragOffsetX = 0, dragOffsetY = 0;
+    
+    // Black hole properties
+    const blackHoleRadius = 50;
+    let angle = 0;
+    const particles = [];
+    
+    // Create particles
+    function createParticles() {
+      for (let i = 0; i < 500; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.5,
+          speed: Math.random() * 2 + 1,
+          angle: Math.random() * Math.PI * 2,
+          distance: Math.sqrt(Math.pow(Math.random() * canvas.width - centerX, 2) + 
+                              Math.pow(Math.random() * canvas.height - centerY, 2))
+        });
+      }
+    }
+    
+    // Draw accretion disk
+    function drawAccretionDisk() {
+      const rings = 20;
+      for (let i = 0; i < rings; i++) {
+        const radius = blackHoleRadius + i * 10;
+        const opacity = 1 - (i / rings);
+        
+        ctx.beginPath();
+        ctx.arc(centerX + dragOffsetX, centerY + dragOffsetY, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(0, 100, 255, ${opacity * 0.7})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+    
+    // Draw black hole
+    function drawBlackHole() {
+      const x = centerX + dragOffsetX;
+      const y = centerY + dragOffsetY;
+      
+      // Outer glow
+      const gradient = ctx.createRadialGradient(
+        x, y, blackHoleRadius * 0.5,
+        x, y, blackHoleRadius * 2
+      );
+      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      gradient.addColorStop(1, 'rgba(100, 100, 255, 0.3)');
+      
+      ctx.beginPath();
+      ctx.arc(x, y, blackHoleRadius * 2, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Black hole core
+      ctx.beginPath();
+      ctx.arc(x, y, blackHoleRadius, 0, Math.PI * 2);
+      ctx.fillStyle = '#000';
+      ctx.fill();
+      
+      // Event horizon distortion effect
+      ctx.beginPath();
+      ctx.arc(x, y, blackHoleRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(100, 150, 255, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+    
+    // Update and draw particles
+    function updateParticles() {
+      const x = centerX + dragOffsetX;
+      const y = centerY + dragOffsetY;
+      
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        
+        // Calculate distance to black hole
+        const dx = p.x - x;
+        const dy = p.y - y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // If particle gets too close, reset it
+        if (distance < blackHoleRadius + 5) {
+          p.x = Math.random() * canvas.width;
+          p.y = Math.random() * canvas.height;
+          p.distance = Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
+          continue;
+        }
+        
+        // Apply gravitational pull
+        const force = 1000 / (distance * distance);
+        p.x -= dx * force * 0.05;
+        p.y -= dy * force * 0.05;
+        
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 200, 255, ${1 - distance/canvas.width})`;
+        ctx.fill();
+      }
+    }
+    
+    // Animation loop
+    function animate() {
+      // Clear canvas with a space-like background
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Update rotation angle
+      angle += 0.005;
+      
+      // Save context for rotation
+      ctx.save();
+      ctx.translate(centerX + dragOffsetX, centerY + dragOffsetY);
+      ctx.rotate(angle);
+      ctx.translate(-(centerX + dragOffsetX), -(centerY + dragOffsetY));
+      
+      // Draw elements
+      drawAccretionDisk();
+      ctx.restore();
+      
+      updateParticles();
+      drawBlackHole();
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Mouse event handlers
+    function handleMouseDown(e) {
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      canvas.style.cursor = 'grabbing';
+    }
+    
+    function handleMouseMove(e) {
+      if (isDragging) {
+        dragOffsetX = e.clientX - dragStartX;
+        dragOffsetY = e.clientY - dragStartY;
+      }
+    }
+    
+    function handleMouseUp() {
+      if (isDragging) {
+        // Update the center position
+        centerX += dragOffsetX;
+        centerY += dragOffsetY;
+        dragOffsetX = 0;
+        dragOffsetY = 0;
+        isDragging = false;
+        canvas.style.cursor = 'grab';
+      }
+    }
+    
+    function handleMouseLeave() {
+      if (isDragging) {
+        // Update the center position
+        centerX += dragOffsetX;
+        centerY += dragOffsetY;
+        dragOffsetX = 0;
+        dragOffsetY = 0;
+        isDragging = false;
+        canvas.style.cursor = 'default';
+      }
+    }
+    
+    // Touch event handlers for mobile devices
+    function handleTouchStart(e) {
+      e.preventDefault();
+      isDragging = true;
+      dragStartX = e.touches[0].clientX;
+      dragStartY = e.touches[0].clientY;
+    }
+    
+    function handleTouchMove(e) {
+      e.preventDefault();
+      if (isDragging) {
+        dragOffsetX = e.touches[0].clientX - dragStartX;
+        dragOffsetY = e.touches[0].clientY - dragStartY;
+      }
+    }
+    
+    function handleTouchEnd() {
+      if (isDragging) {
+        // Update the center position
+        centerX += dragOffsetX;
+        centerY += dragOffsetY;
+        dragOffsetX = 0;
+        dragOffsetY = 0;
+        isDragging = false;
+      }
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+    
+    // Add mouse event listeners
+    canvas.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
+    
+    // Add touch event listeners for mobile devices
+    canvas.addEventListener('touchstart', handleTouchStart);
+    canvas.addEventListener('touchmove', handleTouchMove);
+    canvas.addEventListener('touchend', handleTouchEnd);
+    
+    // Initialize and start animation
+    createParticles();
+    animate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!-- no right to change the code!--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghost Switch by ExpoitZ3r0</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    #boo {
+      color: rgb(1, 242, 250);
+      margin-bottom: 12px;
+    }
+
+    #boo.black-text {
+      color: black;
+    }
+
+    #boo.hide {
+      opacity: 0;
+    }
+    
+    #boo.show {
+      opacity: 1;
+    }
+
+    .switch-container {
+      width: 100%;
+      height: 100vh;
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 100px;
+      height: 25px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgb(255, 255, 255);
+      transition: .4s;
+      border: 1px solid #333;
+    }
+
+    input:checked + .slider {
+      background-color: #000000;
+      border: 1px solid #ccc;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #000000;
+    }
+
+    input:checked + .slider > div
+    {
+      transform: translateX(65px);
+    }
+
+    input + .slider > div {
+      transition: transform 0.4s;
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .ghost {
+      position: absolute;
+      
+      left:0;
+      top: -10px;
+      width: 40px;
+      height: 40px;
+      
+      background-color: white;
+      border-radius: 100px;
+      
+      animation: bobble 4.3s infinite;
+      
+      filter: drop-shadow(0px 5px 12px rgba(255, 255, 255, 0.6))
+    }
+
+    @keyframes bobble {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(15%);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sway {
+      0% {
+        transform: translateX(-2px);
+      }
+      50% {
+        transform: translateX(2px);
+      }
+      100% {
+        transform: translateX(-2px);
+      }
+    }
+
+    @keyframes sway-more {
+      0% {
+        transform: translateX(-4px);
+      }
+      50% {
+        
+        transform: translateX(4px);
+      }
+      100% {
+        transform: translateX(-4px);
+      }
+    }
+
+    @keyframes sway-left {
+      0% {
+        transform: translateX(0px);
+      }
+      50% {
+        transform: translateX(-4px);
+      }
+      100% {
+        transform: translateX(0px);
+      }
+    }
+
+    @keyframes sway-left-less {
+      0% {
+        transform: translateX(0px);
+      }
+      50% {
+        transform: translateX(-2px);
+      }
+      100% {
+        transform: translateX(0px);
+      }
+    }
+
+
+    @keyframes sway-right {
+      0% {
+        transform: translateX(0px);
+      }
+      50% {
+        transform: translateX(4px);
+      }
+      100% {
+        transform: translateX(0px);
+      }
+    }
+
+    @keyframes sway-right-less {
+      0% {
+        transform: translateX(0px);
+      }
+      50% {
+        transform: translateX(2px);
+      }
+      100% {
+        transform: translateX(0px);
+      }
+    }
+
+    @keyframes blink {
+      0% {
+        top: 16px;
+        height: 8px;
+      }
+      39% {
+        top: 16px;
+        height: 8px;
+      }
+      40% {
+        top: 20px;
+        height: 2px;
+      }
+      50% {
+        top: 20px;
+        height: 2px;
+      }
+      51% {
+        top: 16px;
+        height: 8px;
+      }
+      100% {
+        top: 16px;
+        height: 8px;
+      }
+    }
+
+    .ghost:after {
+      content: "";
+      position: absolute;
+      left: calc(50% - 7px);
+      top: 16px;
+      width: 10px;
+      height: 8px;
+      
+      border-right: 3px solid black;
+      border-left: 3px solid black;
+      
+      animation: bobble 2s infinite,sway-more 2s infinite 1s, blink 4.25s infinite;
+    }
+    /* 
+    input:checked + .slider .ghost:after {
+      animation: sway-right 0.5s;
+    }
+
+
+    input:checked + .slider .ghost:before{
+      animation: sway-right 0.5s;
+    }
+
+    input:not(:checked) + .slider .ghost:after {
+      animation: sway-left 0.5s;
+    }
+
+
+    input:not(:checked) + .slider .ghost:before{
+      animation: sway-left 0.5s;
+    }
+    */
+
+    .ghost:before {
+      content: "";
+      position: absolute;
+      
+      top: calc(50% - 6px);
+      left: -10%;
+      width: 120%;
+      height: 12px;
+      border-radius: 100px;
+      
+      background-color: white;
+      
+      animation: sway 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="switch-container">
+    <div class="hide">
+    </div>
+  <label class="switch">
+    <input id="toggle" type="checkbox" />
+    <div class="slider round"><div><div class="ghost" /></div></div>
+  </label>
+  </div>
+
+  <script>   
+      document.getElementById("toggle").addEventListener("click", changeColor);
+
+      function changeColor() {
+        var body = document.body;
+        var boo = document.getElementById("boo");
+        
+        // Generate random RGB values
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        
+        // Apply the random background color
+        var bgColor = "rgb(" + r + ", " + g + ", " + b + ")";
+        body.style.backgroundColor = bgColor;
+        
+        // Calculate brightness of background to determine text color
+        var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        
+        // Set text color based on background brightness
+        if (brightness > 128) {
+          boo.classList.add("black-text");
+        } else {
+          boo.classList.remove("black-text");
+        }
+        
+        // Show the Boo! text
+        boo.classList.remove("hide");
+        boo.classList.add("show");
+        
+        // Hide the Boo! text after a short delay
+        setTimeout(function() {
+          boo.classList.remove("show");
+          boo.classList.add("hide");
+        }, 1000);
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!-- no right to change the code!--> 
+
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Riste aka ExploitZ3r0</title>
+    <meta name="description" content="Riste aka ExploitZ3r0 - Personal portfolio and projects showcase."/>
+    
+    <!-- Add manifest for PWA support -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- iOS Safari support -->
+    <meta name="theme-color" content="#00ff41">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Riste aka ExploitZ3r0">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .animate-scroll {
+            animation: scroll 15s linear infinite;
+            display: flex;
+            width: max-content;
+        }
+        
+        @media (max-width: 640px) {
+            .animate-scroll {
+                animation: scroll 10s linear infinite;
+            }
+        }
+        
+        .animate-scroll:hover {
+            animation-play-state: running;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+        
+        @media (hover: none) {
+            .card-hover:active {
+                transform: scale(0.98);
+            }
+        }
+        
+        /* Hacker-style background effects */
+        body {
+            overflow-x: hidden;
+            background-color: #000;
+            background-image: 
+                radial-gradient(#00ff4130 1px, transparent 1px),
+                radial-gradient(#00ff4120 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        
+        /* Matrix-like glitch effect for header */
+        .matrix-glitch {
+            position: relative;
+            color: #00ff41;
+        }
+        
+        .matrix-glitch::before,
+        .matrix-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .matrix-glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .matrix-glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            5% { clip: rect(12px, 9999px, 59px, 0); }
+            10% { clip: rect(48px, 9999px, 29px, 0); }
+            15% { clip: rect(42px, 9999px, 73px, 0); }
+            20% { clip: rect(63px, 9999px, 27px, 0); }
+            25% { clip: rect(34px, 9999px, 55px, 0); }
+            30% { clip: rect(86px, 9999px, 73px, 0); }
+            35% { clip: rect(20px, 9999px, 20px, 0); }
+            40% { clip: rect(26px, 9999px, 60px, 0); }
+            45% { clip: rect(25px, 9999px, 66px, 0); }
+            50% { clip: rect(57px, 9999px, 98px, 0); }
+            55% { clip: rect(5px, 9999px, 46px, 0); }
+            60% { clip: rect(82px, 9999px, 31px, 0); }
+            65% { clip: rect(54px, 9999px, 27px, 0); }
+            70% { clip: rect(28px, 9999px, 99px, 0); }
+            75% { clip: rect(45px, 9999px, 69px, 0); }
+            80% { clip: rect(23px, 9999px, 85px, 0); }
+            85% { clip: rect(1px, 9999px, 83px, 0); }
+            90% { clip: rect(72px, 9999px, 11px, 0); }
+            95% { clip: rect(60px, 9999px, 89px, 0); }
+            100% { clip: rect(52px, 9999px, 74px, 0); }
+        }
+        
+        /* Green glow effect for cards */
+        .card-glow {
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+        }
+        
+        .card-glow:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.6);
+        }
+        
+        /* Offline notification styles */
+        .offline-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen text-white font-sans">
+    
+    <!-- Offline notification -->
+    <div id="offlineNotification" class="offline-notification">
+        You are currently offline. Displaying cached content.
+    </div>
+    
+    <!-- Main Container -->
+    <div class="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <header class="text-center mb-8 sm:mb-12 fade-in">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 matrix-glitch" data-text="Riste aka ExploitZ3r0">
+                <span class="text-green-400">Riste aka ExploitZ3r0</span>
+            </h1>
+            <p class="text-green-500 text-base sm:text-lg px-4 font-mono">> Explore my collection of games, tools, and projects_</p>
+        </header>
+
+        <!-- Links Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+            
+            <!-- Games Link -->
+            <a href="/404" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">404</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">404</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Games by ExploitZ3r0 Link -->
+            <a href="/ant" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">ant game</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">ant game </p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Games ExploitZ3r0 Link -->
+            <a href="/bat" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.3s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">bat</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">bat</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- QR Code Generator Link -->
+            <a href="/black" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">blackhole game</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">blackhole game</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+			
+			<!-- Games by ExploitZ3r0 Link -->
+            <a href="/game" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">game</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">game</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+			 </a>
+          <!-- QR Code Generator Link -->
+            <a href="/nova" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">nova</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">nova</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>			 
+			
+			<!-- QR Code Generator Link -->
+            <a href="/obby" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">obby</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">obby</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+			<!-- QR Code Generator Link -->
+            <a href="/up" target="_blank" rel="noopener noreferrer" class="card-hover block bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-5 sm:p-6 shadow-lg card-glow fade-in min-h-[80px] touch-manipulation" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-semibold mb-1 text-green-400">up</h3>
+                        <p class="text-xs sm:text-sm text-green-500 font-mono">up</p>
+                    </div>
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+			
+        <!-- Trusted By Section -->
+        <div class="text-center mb-6 sm:mb-8 fade-in" style="animation-delay: 0.8s;">
+            <p class="text-green-500 text-xs sm:text-sm mb-4 sm:mb-6 font-mono">> Trusted by developers at</p>
+        </div>
+
+        <!-- Infinite Scrolling Logo Carousel -->
+        <div class="overflow-hidden relative mb-12 sm:mb-16">
+            <div class="flex animate-scroll whitespace-nowrap">
+                <!-- Single set of logos repeated twice for seamless loop -->
+                <div class="flex items-center gap-8 sm:gap-12">
+                    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" alt="Vercel" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="Google" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="GitHub" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.netlify.com/v3/img/components/logomark.svg" alt="Netlify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" alt="Cloudflare" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Docker" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg" alt="Shopify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" alt="Slack" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" alt="Notion" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Twilio-logo-red.svg" alt="Twilio" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png" alt="Supabase" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                </div>
+                <div class="flex items-center gap-8 sm:gap-12">
+                    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" alt="Vercel" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="Google" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" alt="GitHub" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.netlify.com/v3/img/components/logomark.svg" alt="Netlify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" alt="Cloudflare" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Docker" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg" alt="Shopify" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" alt="Slack" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" alt="Notion" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Twilio-logo-red.svg" alt="Twilio" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://seeklogo.com/images/S/supabase-logo-DCC676FFE2-seeklogo.com.png" alt="Supabase" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB" class="h-4 sm:h-6 w-auto opacity-90 hover:opacity-100 transition-opacity flex-shrink-0"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-green-500 text-sm fade-in font-mono" style="animation-delay: 0.9s;">
+            <p>© Riste aka ExploitZ3r0. All rights reserved.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+        
+        // Handle online/offline events
+        window.addEventListener('offline', () => {
+            document.getElementById('offlineNotification').style.display = 'block';
+        });
+        
+        window.addEventListener('online', () => {
+            document.getElementById('offlineNotification').style.display = 'none';
+        });
+        
+        // Check initial status
+        if (!navigator.onLine) {
+            document.getElementById('offlineNotification').style.display = 'block';
+        }
+    </script>
+</div>
+</body>
+<script src="https://v111.neocities.org/bot/exploitz3r0bot.js"></script>
+</html>

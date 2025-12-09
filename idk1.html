@@ -1,0 +1,370 @@
+<!-- no right to change the code!--> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPU Stress Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    
+    #control-panel {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 10px;
+      color: white;
+    }
+    
+    #control-panel button {
+      background: #4a4a4a;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    #control-panel button:hover {
+      background: #6a6a6a;
+    }
+    
+    #control-panel label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    
+    #control-panel input {
+      width: 100%;
+    }
+    
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    #stats {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div id="control-panel">
+    <h2>CPU Stress Test</h2>
+    <label for="intensity">Animation Intensity:</label>
+    <input type="range" id="intensity" min="1" max="50" value="10">
+    <span id="intensity-value">10</span>
+    
+    <label for="complexity">Visual Complexity:</label>
+    <input type="range" id="complexity" min="1" max="10" value="5">
+    <span id="complexity-value">5</span>
+    
+    <button id="start-btn">Start Test</button>
+    <button id="stop-btn">Stop Test</button>
+    <button id="add-particles">Add Particles</button>
+    <button id="add-thunder">Add Lightning</button>
+  </div>
+  
+  <canvas id="mainCanvas"></canvas>
+  <canvas id="thunderCanvas"></canvas>
+  
+  <div id="stats">
+    FPS: <span id="fps-counter">0</span><br>
+    Particles: <span id="particle-count">0</span><br>
+    Active Animations: <span id="animation-count">0</span>
+  </div>
+
+  <script>
+    // Main Canvas Setup
+    const mainCanvas = document.getElementById('mainCanvas');
+    const thunderCanvas = document.getElementById('thunderCanvas');
+    const mainCtx = mainCanvas.getContext('2d');
+    const thunderCtx = thunderCanvas.getContext('2d');
+    
+    // Resize canvases to full window
+    function resizeCanvases() {
+      mainCanvas.width = window.innerWidth;
+      mainCanvas.height = window.innerHeight;
+      thunderCanvas.width = window.innerWidth;
+      thunderCanvas.height = window.innerHeight;
+    }
+    
+    window.addEventListener('resize', resizeCanvases);
+    resizeCanvases();
+    
+    // Control elements
+    const intensitySlider = document.getElementById('intensity');
+    const complexitySlider = document.getElementById('complexity');
+    const intensityValue = document.getElementById('intensity-value');
+    const complexityValue = document.getElementById('complexity-value');
+    const startBtn = document.getElementById('start-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const addParticlesBtn = document.getElementById('add-particles');
+    const addThunderBtn = document.getElementById('add-thunder');
+    const fpsCounter = document.getElementById('fps-counter');
+    const particleCount = document.getElementById('particle-count');
+    const animationCount = document.getElementById('animation-count');
+    
+    // Update slider values display
+    intensitySlider.addEventListener('input', () => {
+      intensityValue.textContent = intensitySlider.value;
+    });
+    
+    complexitySlider.addEventListener('input', () => {
+      complexityValue.textContent = complexitySlider.value;
+    });
+    
+    // Particle system
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      
+      reset() {
+        this.x = Math.random() * mainCanvas.width;
+        this.y = Math.random() * mainCanvas.height;
+        this.vx = (Math.random() - 0.5) * 10;
+        this.vy = (Math.random() - 0.5) * 10;
+        this.radius = Math.random() * 10 + 2;
+        this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        this.alpha = Math.random();
+        this.life = 1.0;
+        this.decay = Math.random() * 0.01 + 0.005;
+      }
+      
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.1; // gravity
+        
+        // Bounce off edges
+        if (this.x < 0 || this.x > mainCanvas.width) this.vx *= -0.8;
+        if (this.y < 0 || this.y > mainCanvas.height) this.vy *= -0.8;
+        
+        // Keep within bounds
+        this.x = Math.max(0, Math.min(mainCanvas.width, this.x));
+        this.y = Math.max(0, Math.min(mainCanvas.height, this.y));
+        
+        // Decay
+        this.life -= this.decay;
+        if (this.life <= 0) {
+          this.reset();
+        }
+      }
+      
+      draw(ctx) {
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    // Thunder/Lightning effect
+    class Thunder {
+      constructor() {
+        this.reset();
+      }
+      
+      reset() {
+        this.x = Math.random() * thunderCanvas.width;
+        this.y = 0;
+        this.segments = [];
+        this.lifespan = Math.random() * 30 + 30;
+        this.maxSegments = Math.floor(Math.random() * 20) + 10;
+        this.color = `hsl(60, 100%, ${Math.random() * 50 + 50}%)`;
+        this.createSegments();
+      }
+      
+      createSegments() {
+        let x = this.x;
+        let y = this.y;
+        
+        for (let i = 0; i < this.maxSegments; i++) {
+          const angle = (Math.random() - 0.5) * Math.PI * 0.5;
+          const length = Math.random() * 30 + 10;
+          const newX = x + Math.cos(angle) * length;
+          const newY = y + Math.sin(angle) * length + 10;
+          
+          this.segments.push({
+            x1: x,
+            y1: y,
+            x2: newX,
+            y2: newY
+          });
+          
+          x = newX;
+          y = newY;
+        }
+      }
+      
+      update() {
+        this.lifespan--;
+        if (this.lifespan <= 0) {
+          this.reset();
+        }
+      }
+      
+      draw(ctx) {
+        if (this.lifespan <= 0) return;
+        
+        const alpha = Math.min(1, this.lifespan / 30);
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = Math.random() * 3 + 1;
+        ctx.beginPath();
+        
+        if (this.segments.length > 0) {
+          ctx.moveTo(this.segments[0].x1, this.segments[0].y1);
+          this.segments.forEach(segment => {
+            ctx.lineTo(segment.x2, segment.y2);
+          });
+        }
+        
+        ctx.stroke();
+      }
+    }
+    
+    // Variables for animation control
+    let particles = [];
+    let thunders = [];
+    let animationRunning = false;
+    let animationId = null;
+    let lastTime = 0;
+    let frameCount = 0;
+    let lastFpsUpdate = 0;
+    let fps = 0;
+    
+    // Initialize with some particles
+    function initParticles(count) {
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+      updateStats();
+    }
+    
+    // Initialize with some thunder effects
+    function initThunders(count) {
+      for (let i = 0; i < count; i++) {
+        thunders.push(new Thunder());
+      }
+      updateStats();
+    }
+    
+    // Animation loop
+    function animate(timestamp) {
+      if (!lastTime) lastTime = timestamp;
+      const deltaTime = timestamp - lastTime;
+      lastTime = timestamp;
+      
+      frameCount++;
+      if (timestamp - lastFpsUpdate >= 1000) {
+        fps = Math.round((frameCount * 1000) / (timestamp - lastFpsUpdate));
+        fpsCounter.textContent = fps;
+        lastFpsUpdate = timestamp;
+        frameCount = 0;
+      }
+      
+      // Clear canvases
+      mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+      thunderCtx.clearRect(0, 0, thunderCanvas.width, thunderCanvas.height);
+      
+      // Update and draw particles
+      mainCtx.globalCompositeOperation = 'lighter';
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw(mainCtx);
+      });
+      
+      // Update and draw thunder
+      thunders.forEach(thunder => {
+        thunder.update();
+        thunder.draw(thunderCtx);
+      });
+      
+      // Add new particles based on intensity setting
+      const intensity = parseInt(intensitySlider.value);
+      if (Math.random() < intensity / 100) {
+        particles.push(new Particle());
+        if (particles.length > 5000) {
+          particles.shift(); // Remove oldest particle
+        }
+        updateStats();
+      }
+      
+      // Add new thunder based on complexity setting
+      const complexity = parseInt(complexitySlider.value);
+      if (Math.random() < complexity / 1000) {
+        thunders.push(new Thunder());
+        if (thunders.length > 100) {
+          thunders.shift(); // Remove oldest thunder
+        }
+        updateStats();
+      }
+      
+      if (animationRunning) {
+        animationId = requestAnimationFrame(animate);
+      }
+    }
+    
+    // Update stats display
+    function updateStats() {
+      particleCount.textContent = particles.length;
+      animationCount.textContent = thunders.length;
+    }
+    
+    // Event listeners for buttons
+    startBtn.addEventListener('click', () => {
+      if (!animationRunning) {
+        animationRunning = true;
+        lastTime = 0;
+        lastFpsUpdate = 0;
+        frameCount = 0;
+        animationId = requestAnimationFrame(animate);
+      }
+    });
+    
+    stopBtn.addEventListener('click', () => {
+      animationRunning = false;
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    });
+    
+    addParticlesBtn.addEventListener('click', () => {
+      const intensity = parseInt(intensitySlider.value);
+      initParticles(intensity * 10);
+    });
+    
+    addThunderBtn.addEventListener('click', () => {
+      const complexity = parseInt(complexitySlider.value);
+      initThunders(complexity * 2);
+    });
+    
+    // Initialize
+    initParticles(100);
+    initThunders(5);
+    updateStats();
+  </script>
+</body>
+</html>

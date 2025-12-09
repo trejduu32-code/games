@@ -1,0 +1,52 @@
+<!-- no right to change the code!--> 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> 🤫</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        iframe {
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="frame" src="https://chatai.steam12345riste.workers.dev"></iframe>
+
+    <script>
+        function updateSize() {
+            const frame = document.getElementById("frame");
+
+            // Works on mobile, mobile desktop mode, PC
+            const w = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+            const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+            frame.style.width = w + "px";
+            frame.style.height = h + "px";
+        }
+
+        updateSize();
+
+        // Listen for everything that can change viewport size
+        window.addEventListener("resize", updateSize);
+        window.addEventListener("orientationchange", updateSize);
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", updateSize);
+            window.visualViewport.addEventListener("scroll", updateSize);
+        }
+    </script>
+
+</body>
+</html>
