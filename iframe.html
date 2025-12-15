@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFrame HTML Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #1a1a2e;
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #6c63ff;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d0d0f0;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #6c63ff;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #8a84ff;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #5a52e0;
+        }
+        
+        .code-output {
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .info {
+            background: rgba(108, 99, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>iFrame HTML Generator</h1>
+        
+        <div class="input-group">
+            <label>Website URL</label>
+            <input type="url" id="website-url" placeholder="https://example.com" value="https://xlnk.base44.app">
+        </div>
+        
+        <button id="generate-btn" class="btn">Generate iFrame HTML</button>
+        
+        <div id="code-output" class="code-output"></div>
+        
+        <div class="info">
+            <strong>Note:</strong> The generated HTML contains ONLY:
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>Your custom script</li>
+                <li>A full-screen iframe with the website</li>
+                <li>Nothing else - no buttons, no controls, just the website</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const websiteUrl = document.getElementById('website-url');
+        const generateBtn = document.getElementById('generate-btn');
+        const codeOutput = document.getElementById('code-output');
+        
+        const CUSTOM_SCRIPT = 'https://trejduu32-code.github.io/supreme-engine/a.js';
+        
+        generateBtn.addEventListener('click', function() {
+            const url = websiteUrl.value.trim();
+            
+            if (!url) {
+                alert('Please enter a website URL');
+                return;
+            }
+            
+            try {
+                new URL(url);
+            } catch (e) {
+                alert('Please enter a valid URL (include http:// or https://)');
+                return;
+            }
+            
+            const htmlCode = generateIframeHtml(url);
+            codeOutput.textContent = htmlCode;
+            codeOutput.style.display = 'block';
+            
+            // Download automatically
+            downloadHtml(htmlCode, url);
+        });
+        
+        function generateIframeHtml(url) {
+            return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${new URL(url).hostname}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+    <script src="${CUSTOM_SCRIPT}"><\/script>
+</head>
+<body>
+    <iframe src="${url}"></iframe>
+</body>
+</html>`;
+        }
+        
+        function downloadHtml(htmlCode, url) {
+            const domain = new URL(url).hostname;
+            const fileName = `iframe-${domain}.html`;
+            
+            const blob = new Blob([htmlCode], { type: 'text/html' });
+            const urlObj = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = urlObj;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(urlObj);
+            }, 100);
+            
+            // Update button text
+            const originalText = generateBtn.textContent;
+            generateBtn.textContent = 'Downloaded!';
+            setTimeout(() => {
+                generateBtn.textContent = originalText;
+            }, 2000);
+        }
+        
+        // Generate on Enter key
+        websiteUrl.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
