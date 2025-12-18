@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+    <title>UnderDaSea Links by ExploitZ3r0</title>
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="UnderDaSea Links - Built by Riste aka ExploitZ3r0"/>
+    <meta property="og:description" content="A hilarious collection of URL shortener applications. Dive into the fun with SpongeBob themed links and projects!"/>
+    <meta property="og:url" content="https://www.onspace.ai"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="OnSpace.AI"/>
+    <meta property="og:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9beo68.jpg"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="UnderDaSea Links - Built by Riste aka ExploitZ3r0"/>
+    <meta name="twitter:description" content="A hilarious collection of URL shortener applications. Dive into the fun with SpongeBob themed links and projects!"/>
+    <meta name="twitter:image" content="https://cdn-ai.onspace.ai/onspace/project/screenshot/online/pre-site/9beo68.jpg"/>
+    <meta name="twitter:url" content="https://www.onspace.ai"/>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- SpongeBob Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        @keyframes jelly {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(0.95, 1.05); }
+            50% { transform: scale(1.05, 0.95); }
+            75% { transform: scale(0.98, 1.02); }
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-2deg); }
+            75% { transform: rotate(2deg); }
+        }
+        
+        @keyframes bubbleFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes seaweedSway {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+        
+        @keyframes patrickStumble {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            33% { transform: translateX(-10px) rotate(-5deg); }
+            66% { transform: translateX(10px) rotate(5deg); }
+        }
+        
+        @keyframes squidwardDance {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes krabbyFlip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+        
+        @keyframes planktonBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes sandySwing {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+        
+        @keyframes garySlither {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        @keyframes jellyfishPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        @keyframes textWave {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-5px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(5px); }
+        }
+        
+        @keyframes bounceIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes shiny {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        .underwater-bg {
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .underwater-bg::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            opacity: 0;
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .spongebob-font {
+            font-family: 'Fredoka One', cursive;
+            text-shadow: 3px 3px 0 #ff6b35, 6px 6px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .bikini-bottom-font {
+            font-family: 'Comic Neue', cursive;
+            font-weight: 700;
+        }
+        
+        .jelly-animation {
+            animation: jelly 0.5s ease-in-out;
+        }
+        
+        .wiggle-animation {
+            animation: wiggle 0.5s ease-in-out;
+        }
+        
+        .krabby-patty {
+            background: linear-gradient(135deg, #ff6b35, #ffa500);
+            border: 5px solid #8b4513;
+            box-shadow: 0 10px 20px rgba(139, 69, 19, 0.4);
+        }
+        
+        .krabby-patty:hover {
+            animation: jelly 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.6),
+                        0 0 40px rgba(255, 165, 0, 0.4);
+        }
+        
+        .pineapple-house {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            border: 5px solid #8b4513;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .pineapple-house:hover {
+            animation: wiggle 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.6),
+                        0 0 40px rgba(255, 255, 0, 0.4);
+        }
+        
+        .patrick-rock {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border: 5px solid #8b0000;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
+        }
+        
+        .patrick-rock:hover {
+            animation: patrickStumble 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.6),
+                        0 0 40px rgba(255, 20, 147, 0.4);
+        }
+        
+        .squidward-house {
+            background: linear-gradient(135deg, #9370db, #8a2be2);
+            border: 5px solid #4b0082;
+            box-shadow: 0 10px 20px rgba(147, 112, 219, 0.4);
+        }
+        
+        .squidward-house:hover {
+            animation: squidwardDance 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(147, 112, 219, 0.6),
+                        0 0 40px rgba(138, 43, 226, 0.4);
+        }
+        
+        .krusty-krab {
+            background: linear-gradient(135deg, #dc143c, #b22222);
+            border: 5px solid #8b0000;
+            box-shadow: 0 10px 20px rgba(220, 20, 60, 0.4);
+        }
+        
+        .krusty-krab:hover {
+            animation: krabbyFlip 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(220, 20, 60, 0.6),
+                        0 0 40px rgba(178, 34, 34, 0.4);
+        }
+        
+        .chum-bucket {
+            background: linear-gradient(135deg, #32cd32, #228b22);
+            border: 5px solid #006400;
+            box-shadow: 0 10px 20px rgba(50, 205, 50, 0.4);
+        }
+        
+        .chum-bucket:hover {
+            animation: planktonBounce 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(50, 205, 50, 0.6),
+                        0 0 40px rgba(34, 139, 34, 0.4);
+        }
+        
+        .treedome {
+            background: linear-gradient(135deg, #98fb98, #00fa9a);
+            border: 5px solid #2e8b57;
+            box-shadow: 0 10px 20px rgba(152, 251, 152, 0.4);
+        }
+        
+        .treedome:hover {
+            animation: sandySwing 0.8s ease-in-out;
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(152, 251, 152, 0.6),
+                        0 0 40px rgba(0, 250, 154, 0.4);
+        }
+        
+        .bubble-buddy {
+            background: linear-gradient(135deg, #87ceeb, #00bfff);
+            border: 5px solid #1e90ff;
+            box-shadow: 0 10px 20px rgba(135, 206, 235, 0.4);
+        }
+        
+        .bubble-buddy:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(135, 206, 235, 0.6),
+                        0 0 40px rgba(0, 191, 255, 0.4);
+        }
+        
+        .shiny-text {
+            background: linear-gradient(90deg, #ff6b35, #ffd700, #00ff00, #00bfff, #ff6b35);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shiny 3s linear infinite;
+        }
+        
+        .wave-text {
+            display: inline-block;
+            animation: textWave 2s ease-in-out infinite;
+        }
+        
+        .letter-1 { animation-delay: 0.1s; }
+        .letter-2 { animation-delay: 0.2s; }
+        .letter-3 { animation-delay: 0.3s; }
+        .letter-4 { animation-delay: 0.4s; }
+        .letter-5 { animation-delay: 0.5s; }
+        .letter-6 { animation-delay: 0.6s; }
+        .letter-7 { animation-delay: 0.7s; }
+        .letter-8 { animation-delay: 0.8s; }
+        .letter-9 { animation-delay: 0.9s; }
+        .letter-10 { animation-delay: 1.0s; }
+        
+        .bubble {
+            position: fixed;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+        }
+        
+        .seaweed {
+            position: fixed;
+            bottom: 0;
+            width: 40px;
+            height: 200px;
+            background: linear-gradient(to top, #228b22, #32cd32);
+            border-radius: 20px 20px 0 0;
+            z-index: 1;
+        }
+        
+        .character {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            font-size: 3rem;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .link-card {
+                min-height: 100px;
+                padding: 1rem !important;
+            }
+            
+            .spongebob-font {
+                font-size: 2rem !important;
+                text-shadow: 2px 2px 0 #ff6b35, 4px 4px 0 rgba(0, 0, 0, 0.2);
+            }
+            
+            .character {
+                font-size: 2rem;
+            }
+            
+            .seaweed {
+                width: 20px;
+                height: 100px;
+            }
+            
+            .grid-cols-1 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .text-3xl {
+                font-size: 1.75rem;
+            }
+            
+            .text-5xl {
+                font-size: 2.25rem;
+            }
+            
+            .text-6xl {
+                font-size: 2.5rem;
+            }
+            
+            .px-4 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .gap-4 {
+                gap: 1rem;
+            }
+            
+            .mt-16 {
+                margin-top: 3rem;
+            }
+            
+            .py-8 {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            
+            .py-16 {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+        }
+        
+        /* Animation delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .delay-600 { animation-delay: 600ms; }
+        .delay-700 { animation-delay: 700ms; }
+        .delay-800 { animation-delay: 800ms; }
+        .delay-900 { animation-delay: 900ms; }
+        .delay-1000 { animation-delay: 1000ms; }
+        .delay-1100 { animation-delay: 1100ms; }
+        .delay-1200 { animation-delay: 1200ms; }
+        
+        /* Animation durations */
+        .duration-500 { animation-duration: 500ms; }
+        .duration-1000 { animation-duration: 1000ms; }
+        .duration-1500 { animation-duration: 1500ms; }
+        .duration-2000 { animation-duration: 2000ms; }
+    </style>
+</head>
+<body class="underwater-bg text-white font-sans w-full">
+    <!-- Bubbles -->
+    <div id="bubbles" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></div>
+    
+    <!-- Seaweed -->
+    <div class="seaweed left-10" style="animation: seaweedSway 4s ease-in-out infinite;"></div>
+    <div class="seaweed left-1/4" style="animation: seaweedSway 5s ease-in-out infinite reverse;"></div>
+    <div class="seaweed right-10" style="animation: seaweedSway 6s ease-in-out infinite;"></div>
+    <div class="seaweed right-1/3" style="animation: seaweedSway 7s ease-in-out infinite reverse;"></div>
+    
+    <!-- Characters -->
+    <div class="character left-5 top-1/4" style="animation: jellyfishPulse 3s ease-in-out infinite;">🎨</div>
+    <div class="character right-5 top-1/3" style="animation: garySlither 4s ease-in-out infinite;">🐌</div>
+    <div class="character left-10 bottom-1/4" style="animation: patrickStumble 5s ease-in-out infinite;">⭐</div>
+    <div class="character right-10 bottom-1/3" style="animation: squidwardDance 3s ease-in-out infinite;">🎷</div>
+    
+    <div class="container mx-auto px-4 py-8 md:py-16 relative z-20 w-full">
+        <!-- Header -->
+        <header class="text-center mb-8 md:mb-16 bounce-in duration-1000">
+            <div class="mb-8 animate-bounce">
+                <span class="text-6xl md:text-7xl">🧽</span>
+                <span class="text-6xl md:text-7xl ml-4 mr-4 animate-spin" style="animation-duration: 3s;">🍔</span>
+                <span class="text-6xl md:text-7xl">🦀</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 spongebob-font">
+                <span class="wave-text letter-1">U</span>
+                <span class="wave-text letter-2">n</span>
+                <span class="wave-text letter-3">d</span>
+                <span class="wave-text letter-4">e</span>
+                <span class="wave-text letter-5">r</span>
+                <span class="wave-text letter-6">D</span>
+                <span class="wave-text letter-7">a</span>
+                <span class="wave-text letter-8">S</span>
+                <span class="wave-text letter-9">e</span>
+                <span class="wave-text letter-10">a</span>
+                <br class="md:hidden">
+                <span class="wave-text letter-1">L</span>
+                <span class="wave-text letter-2">i</span>
+                <span class="wave-text letter-3">n</span>
+                <span class="wave-text letter-4">k</span>
+                <span class="wave-text letter-5">s</span>
+                <span class="wave-text letter-6">!</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl lg:text-3xl mb-3 slide-in-left duration-1000 bikini-bottom-font">
+                Made with <span class="shiny-text font-bold">IMAGINATION!</span>
+            </p>
+            <p class="text-lg md:text-xl text-yellow-300 mb-4 slide-in-right duration-1000 bikini-bottom-font">
+                by <span class="text-green-400 font-semibold">Riste</span> aka 
+                <span class="text-red-400 font-semibold shiny-text">ExploitZ3r0</span>
+            </p>
+            
+            <div class="w-24 md:w-32 h-2 bg-gradient-to-r from-yellow-400 via-pink-500 to-blue-400 mx-auto rounded-full mb-6 bounce-in delay-500 duration-1500"></div>
+            
+            <p class="text-base md:text-lg text-yellow-200 max-w-2xl mx-auto px-4 fade-in delay-800 bikini-bottom-font">
+                Dive in and click the fun! 
+                <span class="inline-block animate-bounce ml-2">🐟</span>
+                <span class="inline-block animate-bounce ml-2" style="animation-delay: 0.2s;">🐠</span>
+                <span class="inline-block animate-bounce ml-2" style="animation-delay: 0.4s;">🐡</span>
+            </p>
+            
+            <div class="mt-6 text-sm md:text-base text-blue-200 fade-in delay-1000">
+                <p>"I'm ready! I'm ready! I'm ready to click links!"</p>
+                <p class="text-xs md:text-sm mt-1">- Some enthusiastic sponge probably</p>
+            </div>
+        </header>
+
+        <!-- Links Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-7xl mx-auto">
+            <!-- Link 1 - 0xAI Base44 -->
+            <a href="https://0xai.base44.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-200 duration-1000 krabby-patty rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce">🤖</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">0xAI Base44</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Robotic Krabby Patty!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Smart like Sandy!</p>
+                </div>
+            </a>
+
+            <!-- Link 2 - X0X Base44 -->
+            <a href="https://x0x.base44.app/Home" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-250 duration-1000 pineapple-house rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-100">🏠</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">X0X Base44</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"My house is a pineapple!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Under the sea living</p>
+                </div>
+            </a>
+
+            <!-- Link 3 - BIN Base44 -->
+            <a href="https://bin.base44.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-300 duration-1000 patrick-rock rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-200">🪨</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">BIN Base44</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Under this rock?"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Patrick approved!</p>
+                </div>
+            </a>
+
+            <!-- Link 4 - XQ Lovable -->
+            <a href="https://xq.lovable.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-350 duration-1000 squidward-house rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-300">🎨</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">XQ Lovable</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Artistic expression!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Squidward would approve</p>
+                </div>
+            </a>
+
+            <!-- Link 5 - QY Lovable -->
+            <a href="https://qy.lovable.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-400 duration-1000 krusty-krab rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-400">🍔</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">QY Lovable</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Krabby Patty secret!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Mr. Krabs loves money</p>
+                </div>
+            </a>
+
+            <!-- Link 6 - Friendly Octo Adventure -->
+            <a href="https://trejduu32-code.github.io/friendly-octo-adventure/i" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-450 duration-1000 chum-bucket rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-500">🐙</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">Friendly Octo</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Adventure time!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Plankton's evil plan</p>
+                </div>
+            </a>
+
+            <!-- Link 7 - WW GitHub -->
+            <a href="https://trejduu32-code.github.io/ww/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-500 duration-1000 treedome rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-600">🐿️</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">WW GitHub</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Texas style!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Howdy partner!</p>
+                </div>
+            </a>
+
+            <!-- Link 8 - URL GPT Base44 -->
+            <a href="https://urlgpt.base44.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-550 duration-1000 bubble-buddy rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-700">💭</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">URL GPT Base44</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Bubble buddy smart!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Thinking bubbles</p>
+                </div>
+            </a>
+
+            <!-- Link 9 - X0X Lovable -->
+            <a href="https://x0x.lovable.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-600 duration-1000 krabby-patty rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-800">❤️</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">X0X Lovable</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"With sea love!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Heart shaped patty</p>
+                </div>
+            </a>
+
+            <!-- Link 10 - URL AI Vercel -->
+            <a href="https://urlai.vercel.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-650 duration-1000 patrick-rock rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-900">🤔</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">URL AI Vercel</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Is this the Krusty Krab?"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">No, this is Patrick!</p>
+                </div>
+            </a>
+
+            <!-- Link 11 - URL GPT Vercel -->
+            <a href="https://urlgpt.vercel.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-700 duration-1000 pineapple-house rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-1000">🏆</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">URL GPT Vercel</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Pineapple trophy!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Best house award</p>
+                </div>
+            </a>
+
+            <!-- Link 12 - Effective Journey -->
+            <a href="https://trejduu32-code.github.io/effective-journey/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-750 duration-1000 squidward-house rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-1100">🎵</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">Effective Journey</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Clarinet adventure!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Squidward's masterpiece</p>
+                </div>
+            </a>
+
+            <!-- Link 13 - 111 Base44 -->
+            <a href="https://111.base44.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-800 duration-1000 krusty-krab rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-1200">💰</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">111 Base44</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Money money money!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Mr. Krabs favorite</p>
+                </div>
+            </a>
+
+            <!-- Link 14 - Cry11 Created -->
+            <a href="https://cry11.created.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-850 duration-1000 chum-bucket rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce">🎪</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">Cry11 Created</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Bucket of fun!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Evil laughter included</p>
+                </div>
+            </a>
+
+            <!-- Link 15 - IDK GitHub -->
+            <a href="https://trejduu32-code.github.io/idk/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-900 duration-1000 treedome rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-100">🤷</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">IDK GitHub</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"I don't know either!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Surprise dome!</p>
+                </div>
+            </a>
+
+            <!-- Link 16 - ExploitZ3r0 Vercel -->
+            <a href="https://exploitz3r0.vercel.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-950 duration-1000 bubble-buddy rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-200">✨</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">ExploitZ3r0 Vercel</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Shiny bubbles!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Fancy bubble technology</p>
+                </div>
+            </a>
+
+            <!-- Link 17 - X0R Lovable -->
+            <a href="https://x0r.lovable.app/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-1000 duration-1000 patrick-rock rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-300">⛄</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">X0R Lovable</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Snowman under sea?"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Patrick's winter form</p>
+                </div>
+            </a>
+
+            <!-- Link 18 - Games GitHub -->
+            <a href="https://trejduu32-code.github.io/games/" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-1050 duration-1000 krabby-patty rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-400">🎲</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">Games GitHub</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Jellyfishing!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">SpongeBob's favorite</p>
+                </div>
+            </a>
+
+            <!-- Link 19 - x0HOST GitHub -->
+            <a href="https://github.com/trejduu32-code/x0HOST" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-1100 duration-1000 squidward-house rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-500">🏠</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">x0HOST GitHub</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Hosting house!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Easter Island style</p>
+                </div>
+            </a>
+
+            <!-- Link 20 - URL Shortener GitHub -->
+            <a href="https://github.com/trejduu32-code/url-shortener" target="_blank" rel="noopener noreferrer" 
+               class="link-card bounce-in delay-1150 duration-1000 chum-bucket rounded-2xl p-5 md:p-6 text-center group relative overflow-hidden">
+                <div class="text-white group-hover:text-yellow-300 transition-colors w-full relative z-10">
+                    <div class="text-3xl md:text-4xl mb-3 animate-bounce delay-600">🔗</div>
+                    <p class="font-bold text-white text-lg md:text-xl mb-1">URL Shortener</p>
+                    <p class="text-sm text-yellow-200 mt-1 bikini-bottom-font">"Short chum bucket!"</p>
+                    <p class="text-xs text-blue-100 mt-2 opacity-75">Plankton's tiny links</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 md:mt-16 text-center fade-in delay-1200">
+            <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-yellow-400 via-pink-500 to-blue-400 mx-auto rounded-full mb-6"></div>
+            <p class="text-sm md:text-base text-yellow-200 bikini-bottom-font">
+                "I'm ready for more adventures!"
+            </p>
+            <p class="text-xs md:text-sm text-blue-200 mt-2">
+                Stay tuned for more underwater links!
+            </p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <span class="text-2xl animate-pulse">🧽</span>
+                <span class="text-2xl animate-bounce" style="animation-delay: 0.2s;">🦀</span>
+                <span class="text-2xl animate-pulse" style="animation-delay: 0.4s;">⭐</span>
+                <span class="text-2xl animate-bounce" style="animation-delay: 0.6s;">🐙</span>
+            </div>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button id="backToTop" class="fixed bottom-6 right-6 bg-gradient-to-r from-yellow-400 to-pink-500 text-white p-3 rounded-full shadow-lg z-30 opacity-0 transition-opacity duration-300 hover:scale-110 transform hover:rotate-180 transition-transform duration-300" aria-label="Back to top">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Create bubbles
+        function createBubbles() {
+            const bubbleContainer = document.getElementById('bubbles');
+            if (!bubbleContainer) return;
+            
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const size = Math.random() * 20 + 10;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}vw`;
+                bubble.style.animation = `bubbleFloat ${duration}s linear ${delay}s infinite`;
+                bubble.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                bubbleContainer.appendChild(bubble);
+            }
+        }
+        
+        // Add click animations to cards
+        function setupCardAnimations() {
+            const cards = document.querySelectorAll('.link-card');
+            cards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Create a bubble effect on click
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.position = 'fixed';
+                    bubble.style.width = '50px';
+                    bubble.style.height = '50px';
+                    bubble.style.left = `${e.clientX - 25}px`;
+                    bubble.style.top = `${e.clientY - 25}px`;
+                    bubble.style.animation = `bubbleFloat 2s linear forwards`;
+                    bubble.style.opacity = '0.8';
+                    bubble.style.zIndex = '1000';
+                    
+                    document.body.appendChild(bubble);
+                    
+                    // Remove bubble after animation
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.parentNode.removeChild(bubble);
+                        }
+                    }, 2000);
+                    
+                    // Play click sound (if available)
+                    playClickSound();
+                });
+                
+                card.addEventListener('mouseenter', () => {
+                    card.style.cursor = 'pointer';
+                    // Add jelly animation on hover
+                    card.classList.add('jelly-animation');
+                    
+                    // Remove animation class after it completes
+                    setTimeout(() => {
+                        card.classList.remove('jelly-animation');
+                    }, 500);
+                });
+            });
+        }
+        
+        // Simulate click sound
+        function playClickSound() {
+            // Create a simple click sound using Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // Fallback if Web Audio API is not available
+                console.log("Click!");
+            }
+        }
+        
+        // Back to top button functionality
+        function setupBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (!backToTopBtn) return;
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.style.opacity = '1';
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Make text wave continuously
+        function waveTextEffect() {
+            const waveLetters = document.querySelectorAll('.wave-text');
+            waveLetters.forEach(letter => {
+                // Already animated via CSS
+            });
+        }
+        
+        // Add random character animations
+        function animateCharacters() {
+            const characters = document.querySelectorAll('.character');
+            characters.forEach(char => {
+                // Randomly trigger additional animations
+                setInterval(() => {
+                    char.style.transform = `scale(${0.9 + Math.random() * 0.2})`;
+                }, 2000 + Math.random() * 3000);
+            });
+        }
+        
+        // Initialize all animations and effects
+        document.addEventListener('DOMContentLoaded', () => {
+            createBubbles();
+            setupCardAnimations();
+            setupBackToTop();
+            waveTextEffect();
+            animateCharacters();
+            
+            // Add page load animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease-in';
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Randomly add more bubbles
+            setInterval(() => {
+                createBubbles();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
