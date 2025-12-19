@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Shortener | xq</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            background:#000;
+            color:#ff3300;
+            font-family:'Courier New',monospace;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+        .card{
+            width:100%;
+            max-width:480px;
+            background:#111;
+            border:1px solid #ff3300;
+            border-radius:12px;
+            padding:30px;
+            text-align:center;
+            box-shadow:0 0 25px rgba(255,51,0,.35);
+        }
+        img.logo{
+            width:100%;
+            max-width:200px;
+            margin-bottom:20px;
+            filter:drop-shadow(0 0 8px #ff3300);
+        }
+        .provider-selector{
+            display:flex;
+            gap:10px;
+            justify-content:center;
+            margin-bottom:15px;
+            flex-wrap:wrap;
+        }
+        .provider-selector label{
+            cursor:pointer;
+            padding:6px 12px;
+            border:1px solid #ff3300;
+            border-radius:4px;
+            transition:.2s;
+            font-size:14px;
+        }
+        .provider-selector input[type=radio]{display:none}
+        .provider-selector input[type=radio]:checked + label{
+            background:#ff3300;
+            color:#000;
+        }
+        input[type=url], input[type=text]{
+            width:100%;
+            padding:12px;
+            font-size:16px;
+            background:#000;
+            border:1px solid #ff3300;
+            color:#ff3300;
+            border-radius:6px;
+            margin-bottom:12px;
+        }
+        input[type=text]::placeholder{
+            color:#ff3300;
+            opacity:.6;
+        }
+        button{
+            width:100%;
+            padding:12px;
+            background:#ff3300;
+            color:#000;
+            border:none;
+            border-radius:6px;
+            font-size:18px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.2s;
+        }
+        button:hover{opacity:.9}
+        button:disabled{opacity:.4;cursor:not-allowed}
+        .result{
+            margin-top:20px;
+            word-break:break-all;
+            font-size:15px;
+        }
+        .result a{
+            color:#ff3300;
+            font-weight:700;
+        }
+        .error{color:#ff6666;margin-top:10px}
+        .hidden{display:none}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="https://trejduu32-code.github.io/supreme-engine/xq.png" alt="xq" class="logo">
+
+        <!-- Provider selector -->
+        <div class="provider-selector">
+            <input type="radio" name="prov" id="isgd" value="isgd" checked>
+            <label for="isgd">is.gd</label>
+
+            <input type="radio" name="prov" id="vgd" value="vgd">
+            <label for="vgd">v.gd</label>
+
+            <input type="radio" name="prov" id="tinyurl" value="tinyurl">
+            <label for="tinyurl">tinyurl</label>
+
+            <input type="radio" name="prov" id="xq" value="xq">
+            <label for="xq">xq</label>
+        </div>
+
+        <form id="form">
+            <input id="urlInput" type="url" placeholder="Paste long URL…" required>
+            <input id="customCode" type="text" placeholder="Custom code (optional)">
+            <button id="btn" type="submit">SHORTEN</button>
+        </form>
+
+        <div id="error" class="error hidden"></div>
+        <div id="result" class="result hidden">
+            <a id="shortLink" href="" target="_blank"></a>
+        </div>
+    </div>
+
+    <script>
+        const form   = document.getElementById('form');
+        const btn    = document.getElementById('btn');
+        const input  = document.getElementById('urlInput');
+        const customCodeInput = document.getElementById('customCode');
+        const error  = document.getElementById('error');
+        const result = document.getElementById('result');
+        const a      = document.getElementById('shortLink');
+
+        /* ---------- provider callers ---------- */
+        const call = {
+            isgd: async(long,code)=>{
+                let u = `https://is.gd/create.php?format=json&url=${encodeURIComponent(long)}`;
+                if(code) u += `&shorturl=${encodeURIComponent(code)}`;
+                const r = await fetch(u); const j = await r.json();
+                if(j.shorturl) return j.shorturl; throw new Error(j.errormessage||'is.gd failed');
+            },
+            vgd: async(long,code)=>{
+                let u = `https://v.gd/create.php?format=json&url=${encodeURIComponent(long)}`;
+                if(code) u += `&shorturl=${encodeURIComponent(code)}`;
+                const r = await fetch(u); const j = await r.json();
+                if(j.shorturl) return j.shorturl; throw new Error(j.errormessage||'v.gd failed');
+            },
+            tinyurl: async(long,code)=>{
+                let u = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(long)}`;
+                if(code) u += `&alias=${encodeURIComponent(code)}`;
+                const r = await fetch(u); const s = await r.text();
+                if(s&&s.startsWith('http')) return s; throw new Error('TinyURL failed/alias taken');
+            },
+            xq: async(long,code)=>{
+                const payload = {long_url:long}; if(code) payload.custom_code=code;
+                const r = await fetch('https://gocllgikkocvnroszmlb.supabase.co/functions/v1/shorten',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(payload)
+                });
+                const j=await r.json();
+                if(r.ok&&j.data?.short_code) return `https://xq.lovable.app/${j.data.short_code}`;
+                throw new Error(j.error||'xq failed');
+            }
+        };
+
+        form.addEventListener('submit', async e=>{
+            e.preventDefault();
+            const long = input.value.trim();
+            const code = customCodeInput.value.trim();
+            if(!long) return;
+
+            const prov = document.querySelector('input[name=prov]:checked').value;
+
+            btn.disabled = true;
+            error.classList.add('hidden');
+            result.classList.add('hidden');
+
+            try{
+                const short = await call[prov](long,code);
+                a.textContent = short;
+                a.href        = short;
+                result.classList.remove('hidden');
+                input.value=''; customCodeInput.value='';
+            }catch(err){
+                error.textContent = 'Error: ' + err.message;
+                error.classList.remove('hidden');
+            }finally{
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
